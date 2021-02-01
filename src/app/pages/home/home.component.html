@@ -1,0 +1,39 @@
+
+
+<div class="container">
+   <div class="beneficiod list-beneficio">
+        <div class="alert alert-success" *ngIf="alerta != ''" role="alert">
+         {{ alerta }}
+         </div>
+
+         
+      <h5 class="beneficiod-header">Lista de beneficios</h5>
+      <div class="beneficiod-body">
+         <table class="table">
+            <thead>
+               <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">CPF</th>
+                  <th scope="col">Órgão</th>
+                  <th scope="col">Matricula</th>
+                  <th>Ações</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let beneficio of beneficios">
+                  <td>{{beneficio.id}}</td>
+                  <td>{{beneficio.nome}}</td>
+                  <td>{{beneficio.cpf}}</td>
+                  <td>{{beneficio.orgao}}</td>
+                  <td>{{beneficio.matricula}}</td>
+                  <td>
+                     <button type="button" class="btn btn-warning btn-sm" (click)="editBeneficio(beneficio)">Editar</button>
+                     <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteBeneficio(beneficio)">Deletar</button>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>

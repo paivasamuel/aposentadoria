@@ -1,0 +1,135 @@
+<div class="container mb-5">
+   <div class="beneficiod add-beneficio">
+       <div class="alert alert-success" *ngIf="alerta != ''" role="alert">
+         {{ alerta }}
+         </div>
+
+
+      <h5 class="beneficiod-header">Adicionar/Atualizar beneficio</h5>
+      <div class="beneficiod-body">
+
+        
+
+
+         <form enctype="multipart/form-data" id="add-form" (ngSubmit)="f.form.valid && saveBeneficio(f)" #f="ngForm">
+         <div class="row">
+            <div class="form-group col-md-4">
+               <label for="model">Nome</label>
+               <input type="text" [(ngModel)]="beneficio.nome" id="nome" name="nome" #nome="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && nome.invalid }" placeholder="Digite o nome">
+               <div *ngIf="f.submitted && nome.invalid" class="invalid-feedback">
+                  <div *ngIf="nome.errors.required">Nome é obrigatório</div>
+               </div>
+            </div>
+            <div class="form-group col-md-4">
+               <label for="cpf">CPF</label>
+               <input type="number" [(ngModel)]="beneficio.cpf" id="cpf" name="cpf" #cpf="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && cpf.invalid }" placeholder="Digite a cpf">
+               <div *ngIf="f.submitted && cpf.invalid" class="invalid-feedback">
+                  <div *ngIf="cpf.errors.required">Cpf é obrigatória</div>
+               </div>
+            </div>
+            <div class="form-group col-md-4">
+               <label for="orgao">Órgão</label>
+               <input type="text" [(ngModel)]="beneficio.orgao" id="orgao" name="orgao" #orgao="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && orgao.invalid }" placeholder="Digite o orgão">
+               <div *ngIf="f.submitted && orgao.invalid" class="invalid-feedback">
+                  <div *ngIf="orgao.errors.required">Preço é obrigatório</div>
+               </div>
+            </div>
+               <div class="form-group col-md-4">
+                  <label for="matricula">Matricula</label>
+                  <input type="number"  id="matricula" [(ngModel)]="beneficio.matricula" name="matricula" #matricula="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && matricula.invalid }" required class="form-control" placeholder="Digite o matrícula">
+                  <div *ngIf="f.submitted && matricula.invalid" class="invalid-feedback">
+                     <div *ngIf="matricula.errors.required">Preço é obrigatório</div>
+                  </div>
+               </div>
+               <div class="col-md-4"  *ngIf="beneficio.arquivo == null">
+                  <div class="form-group">
+                     <label for="categoria">Categoria</label>
+                     <select class="form-control" (change)="changeSelect($event)">
+                        <option>Selecione</option>
+                        <option>Identificação</option>
+                        <option>Vida Funcional</option>
+                        <option>Contagem de tempo</option>
+                        <option>Remuneração/ Proventos.</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-4" *ngIf="beneficio.arquivo == null">
+                  <div class="form-group">
+                     <label for="arquivo">Arquivo</label>
+                     <input type="file" required  (change)="onFileSelect($event)"  id="arquivo" name="arquivo" required class="form-control">
+                  </div>
+               </div>
+            
+            <div class="col-md-12">
+               <button type="submit" class="btn btn-primary btn-add-beneficio">Salvar</button>&nbsp;&nbsp;
+               <button type="reset" class="btn btn-secondary btn-add-beneficio" (click)="cleanForm(f)">Cancelar</button>
+            </div>
+         </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+
+
+<div class="container"  *ngIf="beneficio.id != null">
+   <div class="beneficiod list-beneficio">
+      <h5 class="beneficiod-header">Movimentações</h5>
+
+      <div class="mov-body">
+         <form enctype="multipart/form-data" id="add-form2">
+            <div class="row">
+               <div class="form-group col-md-4">
+                  <label for="model">Novo local para transferência</label>
+                  <select class="form-control" (change)="changeSelectMovimentacao($event)">
+                       
+                        <option selected>Selecione</option>
+                        <option >Identificação</option>
+                        <option>Vida Funcional</option>
+                        <option>Contagem de tempo</option>
+                        <option>Remuneração/ Proventos.</option>
+                     </select>
+               </div>
+               
+               
+               <div class="col-md-12 mb-5">
+                  <button type="button" (click)="addMov()" class="btn btn-primary btn-add-beneficio">Enviar</button>
+               </div>
+            </div>
+            </form>
+      </div>
+
+
+      <div class="beneficiod-body">
+         <table class="table">
+            <thead>
+               <tr>
+                  <th scope="col">Data</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Antigo local</th>
+                  <th scope="col">Novo local</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let mov of movimentacoes">
+
+                  <td>{{mov.data_formatado}}</td>
+                  <td>{{ mov.tipo }}</td>
+                  <td>{{mov.antigo}}</td>
+                  <td>{{mov.novo}}</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+
+
+<div class="container mt-5" *ngIf="beneficio.id != null">
+   <div class="row">
+      <div class="col">
+         <embed [src]="getSantizeUrl('http://msombra.com.br/samuel/'+beneficio.arquivo)" width="100%" height="800px" alt="pdf" type="application/pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+      </div>
+   </div>
+</div>
